@@ -1,8 +1,2 @@
-# Compiled & generated output
-/*/dist/
-
-# TypeScript
-/tsconfig.base.json
-
-# Misc
-/.husky
+.next
+node_modules
