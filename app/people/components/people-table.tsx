@@ -1,14 +1,7 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "components/ui/table"
 import type { Peoples } from "types/peopele"
-import DeletePeople from "./delete-people";
-import EditPeople from './edit-people';
+import DeletePeople from "./delete-people"
+import EditPeople from "./edit-people"
 
 const PeopleTable = ({ data, getData }: { data: Peoples[]; getData: () => void }) => {
   return (
