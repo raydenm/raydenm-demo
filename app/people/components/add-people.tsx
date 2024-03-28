@@ -37,7 +37,7 @@ const AddPeople = ({ getData }: { getData: () => void }) => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setLoading(true)
-    addPeople(values.name, values.address)
+    addPeople(values)
       .then(() => {
         toast({
           title: "Success",

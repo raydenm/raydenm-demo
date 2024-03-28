@@ -10,8 +10,6 @@ const People = () => {
   const [tableData, setTableData] = useState<Peoples[]>([])
   const getData = async () => {
     const data = await getPeople()
-    console.log(data)
-
     setTableData(data || [])
   }
 

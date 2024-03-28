@@ -12,9 +12,9 @@ export const getPeople = async () => {
   }
 }
 
-export const addPeople = async (name: string, home: string) => {
+export const addPeople = async ({ name, address }: { name: string; address: string }) => {
   try {
-    await sql`INSERT INTO People (Name, Home) VALUES (${name}, ${home});`
+    await sql`INSERT INTO People (Name, Home) VALUES (${name}, ${address});`
     return true
   } catch (error) {
     console.error(error)
@@ -30,9 +30,9 @@ export const deletePeople = async (id: number) => {
   }
 }
 
-export const editPeople = async (id: number, name: string, home: string) => {
+export const editPeople = async ({ id, name, address }: { id: number; name: string; address: string }) => {
   try {
-    await sql`UPDATE People SET Name = ${name}, Home = ${home} WHERE id = ${id};`
+    await sql`UPDATE People SET Name = ${name}, Home = ${address} WHERE id = ${id};`
     return true
   } catch (error) {
     console.error(error)
