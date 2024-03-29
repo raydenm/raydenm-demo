@@ -9,6 +9,7 @@ module.exports = {
     },
   },
   rules: {
+    "react-hooks/exhaustive-deps": 'off',
     "tailwindcss/no-custom-classname": "off",
     "testing-library/prefer-screen-queries": "off",
     "@next/next/no-html-link-for-pages": "off",

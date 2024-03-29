@@ -1,23 +1,6 @@
-import { Metadata } from "next"
+import Link from "next/link"
 import { Button } from "components/ui/button"
 import { LP_GRID_ITEMS } from "lp-items"
-
-export const metadata: Metadata = {
-  title: "Next.js Enterprise Boilerplate",
-  twitter: {
-    card: "summary_large_image",
-  },
-  openGraph: {
-    url: "https://next-enterprise.vercel.app/",
-    images: [
-      {
-        width: 1200,
-        height: 630,
-        url: "https://raw.githubusercontent.com/Blazity/next-enterprise/main/.github/assets/project-logo.png",
-      },
-    ],
-  },
-}
 
 export default function Web() {
   return (
@@ -33,8 +16,12 @@ export default function Web() {
               Experience rapid UI development, AI-powered code reviews, and an extensive suite of tools for a smooth and
               enjoyable development process.
             </p>
-            <Button className="mr-3">Get started</Button>
-            <Button>Deploy Now</Button>
+            <Link href="https://github.com/Blazity/next-enterprise">
+              <Button className="mr-3">Get started</Button>
+            </Link>
+            <Link href="https://vercel.com/new/git/external?repository-url=https://github.com/Blazity/next-enterprise">
+              <Button>Deploy Now</Button>
+            </Link>
           </div>
         </div>
       </section>
