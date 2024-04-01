@@ -14,6 +14,8 @@ export const getPeople = async () => {
 
 export const addPeople = async ({ name, address }: { name: string; address: string }) => {
   try {
+    console.log(`INSERT INTO People (Name, Home) VALUES (${name}, ${address});`);
+    
     await sql`INSERT INTO People (Name, Home) VALUES (${name}, ${address});`
     return true
   } catch (error) {
