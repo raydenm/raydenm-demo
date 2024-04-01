@@ -43,7 +43,7 @@ const Add = ({ getData }: { getData: () => void; }) => {
 
   const handOpenChange = (value: boolean) => {
     setOpen(value)
-    reset()
+    reset(sqlConfig.defaultValues)
   }
 
   return (
