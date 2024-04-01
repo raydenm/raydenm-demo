@@ -15,7 +15,7 @@ const pageList = [
     title: "Vercel postgres",
     description:
       "Vercel Postgres is a serverless SQL database designed to integrate with Vercel Functions and your frontend framework.",
-    href: "/people",
+    href: "/admin",
   },
   {
     title: "Background snippets",

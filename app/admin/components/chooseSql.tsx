@@ -1,19 +1,12 @@
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "components/ui/select"
-import useStore from "store";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "components/ui/select"
+import useStore from "store"
 import { sqlConfigList } from "../data/sql"
 
 const ChooseSql = () => {
-  const sqlConfig = useStore(state => state.sqlConfig)
-  const setSqlConfig = useStore(state => state.setSqlConfig)
+  const sqlConfig = useStore((state) => state.sqlConfig)
+  const setSqlConfig = useStore((state) => state.setSqlConfig)
   const onValueChange = (value: string) => {
-    const data = sqlConfigList.find(item => item.sqlName === value)
+    const data = sqlConfigList.find((item) => item.sqlName === value)
     if (data) setSqlConfig(data)
   }
 
@@ -25,7 +18,9 @@ const ChooseSql = () => {
       <SelectContent>
         <SelectGroup>
           {sqlConfigList.map((item, index) => (
-            <SelectItem key={index} value={item.sqlName}>{item.sqlName}</SelectItem>
+            <SelectItem key={index} value={item.sqlName}>
+              {item.sqlName}
+            </SelectItem>
           ))}
         </SelectGroup>
       </SelectContent>

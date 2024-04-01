@@ -5,35 +5,35 @@ import dayjs from "dayjs"
 import type { AdminParamsType, AdminTableData } from "types/admin"
 
 const getAddParams = (data: AdminParamsType) => {
-  const labels = [];
-  const values = [];
+  const labels = []
+  const values = []
   for (const key in data) {
     if (Object.hasOwnProperty.call(data, key)) {
       if (data[key] !== undefined) {
-        labels.push(key);
-        values.push(`'${data[key]}'`);
+        labels.push(key)
+        values.push(`'${data[key]}'`)
       }
     }
   }
-  const labelString = labels.join(', ');
-  const valueString = values.join(', ');
-  return { labelString, valueString };
+  const labelString = labels.join(", ")
+  const valueString = values.join(", ")
+  return { labelString, valueString }
 }
 
 const getEditParams = (data: AdminParamsType) => {
-  const newData: AdminParamsType = { ...data, update_time: dayjs().format('YYYY-MM-DD HH:mm:ss') }
-  delete newData.id;
-  delete newData.create_time;
+  const newData: AdminParamsType = { ...data, update_time: dayjs().format("YYYY-MM-DD HH:mm:ss") }
+  delete newData.id
+  delete newData.create_time
   let values = []
   for (const key in newData) {
     if (Object.hasOwnProperty.call(newData, key)) {
-      if (newData[key] !== undefined && data[key] !== null) {
-        values.push(`${key} = '${newData[key]}'`);
+      if (newData[key] !== undefined && newData[key] !== null) {
+        values.push(`${key} = '${newData[key]}'`)
       }
     }
   }
-  return values.join(', ');
-};
+  return values.join(", ")
+}
 
 export const getData = async ({ sqlName }: { sqlName?: string }) => {
   try {

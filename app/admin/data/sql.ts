@@ -27,7 +27,7 @@ export const sqlConfigList: SqlConfigType[] = [
       email: "",
       password: "",
       sort_order: "0",
-    }
+    },
   },
   {
     sqlName: "bookmarks",
@@ -61,14 +61,11 @@ export const sqlConfigList: SqlConfigType[] = [
       source: "",
       github_url: "",
       sort_order: "0",
-    }
+    },
   },
   {
     sqlName: "bookmarkslabel",
-    fields: [
-      { field: "name", required: true },
-      { field: "sort_order" },
-    ],
+    fields: [{ field: "name", required: true }, { field: "sort_order" }],
     formSchema: z.object({
       name: z.string().min(1, {
         message: "name is required.",
@@ -78,6 +75,6 @@ export const sqlConfigList: SqlConfigType[] = [
     defaultValues: {
       name: "",
       sort_order: "0",
-    }
+    },
   },
 ]

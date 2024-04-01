@@ -26,7 +26,7 @@ const getRandomColor = (): string => {
   return `rgb(${r}, ${g}, ${b})`
 }
 
-const People = () => {
+const Color = () => {
   const [colorList, setColorList] = useState<{ from?: number; to?: number; color: string }[]>(defauleColorList)
   const [bgColor, setBgColor] = useState(defaultBgColor)
 
@@ -159,4 +159,4 @@ const ChooseColor = ({
   )
 }
 
-export default People
+export default Color

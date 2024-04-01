@@ -4,13 +4,13 @@ import { Button } from "components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover"
 import { useToast } from "components/ui/use-toast"
 import { deleteData } from "db/admin"
-import useStore from "store";
+import useStore from "store"
 import type { AdminTableData } from "types/admin"
 
 const Delete = ({ data, getData }: { data: AdminTableData; getData: () => void }) => {
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
-  const sqlConfig = useStore(state => state.sqlConfig)
+  const sqlConfig = useStore((state) => state.sqlConfig)
   const { toast } = useToast()
 
   const handleDelete = async (id: number) => {

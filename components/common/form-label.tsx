@@ -1,10 +1,10 @@
-import { cn } from "lib/utils";
+import { cn } from "lib/utils"
 
 type FormLabelProps = {
-  children: string;
-  className?: string;
-  required?: boolean;
-};
+  children: string
+  className?: string
+  required?: boolean
+}
 
 const FormLabel = ({ children, className, required = true }: FormLabelProps) => {
   return (
@@ -12,7 +12,7 @@ const FormLabel = ({ children, className, required = true }: FormLabelProps) => 
       {children}
       {required && <span className="ml-1 text-lg font-light leading-4 text-rose-500">*</span>}
     </div>
-  );
-};
+  )
+}
 
-export default FormLabel;
+export default FormLabel

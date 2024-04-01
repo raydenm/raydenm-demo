@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { getData } from "db/admin"
-import useStore from "store";
+import useStore from "store"
 import type { AdminTableData } from "types/admin"
 import Add from "./components/add"
 import ChooseSql from "./components/chooseSql"
@@ -10,7 +10,7 @@ import Tabel from "./components/table"
 
 const Admin = () => {
   const [tableData, setTableData] = useState<AdminTableData[]>([])
-  const sqlConfig = useStore(state => state.sqlConfig)
+  const sqlConfig = useStore((state) => state.sqlConfig)
   const hanldeGetData = async () => {
     const data = await getData({ sqlName: sqlConfig?.sqlName })
     setTableData(data || [])

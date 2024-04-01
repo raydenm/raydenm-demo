@@ -10,10 +10,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "components/ui/input"
 import { useToast } from "components/ui/use-toast"
 import { addData } from "db/admin"
-import useStore from "store";
+import useStore from "store"
 import type { AdminParamsType } from "types/admin"
 
-const Add = ({ getData }: { getData: () => void; }) => {
+const Add = ({ getData }: { getData: () => void }) => {
   const sqlConfig = useStore((state) => state.sqlConfig)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -60,20 +60,22 @@ const Add = ({ getData }: { getData: () => void; }) => {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-8">
-            {sqlConfig.fields.map((item, index) => <FormField
-              key={index}
-              control={form.control}
-              name={item.field}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel required={item.required}>{item.field}</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Place enter" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />)}
+            {sqlConfig.fields.map((item, index) => (
+              <FormField
+                key={index}
+                control={form.control}
+                name={item.field}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel required={item.required}>{item.field}</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Place enter" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
             <div className="flex justify-end">
               <Button type="submit" disabled={loading}>
                 {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Send className="mr-2 size-4" />}

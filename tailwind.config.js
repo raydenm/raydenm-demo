@@ -61,7 +61,7 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        "moveHorizontal": {
+        moveHorizontal: {
           "0%": {
             transform: "translateX(-50%) translateY(-10%)",
           },
@@ -72,7 +72,7 @@ module.exports = {
             transform: "translateX(-50%) translateY(-10%)",
           },
         },
-        "moveInCircle": {
+        moveInCircle: {
           "0%": {
             transform: "rotate(0deg)",
           },
@@ -83,7 +83,7 @@ module.exports = {
             transform: "rotate(360deg)",
           },
         },
-        "moveVertical": {
+        moveVertical: {
           "0%": {
             transform: "translateY(-50%)",
           },
