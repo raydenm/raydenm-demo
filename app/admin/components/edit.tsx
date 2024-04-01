@@ -61,7 +61,7 @@ const Edit = ({ getData, data }: { data: AdminTableData; getData: () => void }) 
       <DialogTrigger asChild>
         <Button size="sm" className="">
           <Pencil className="mr-2 size-4" />
-          Edit
+          Edit Item
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

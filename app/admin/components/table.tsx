@@ -1,3 +1,5 @@
+"use client"
+
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "components/ui/table"
 import useStore from "store"
 import type { AdminTableData } from "types/admin"

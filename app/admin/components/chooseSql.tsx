@@ -1,3 +1,5 @@
+"use client"
+
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "components/ui/select"
 import useStore from "store"
 import { sqlConfigList } from "../data/sql"

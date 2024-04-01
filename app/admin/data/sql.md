@@ -29,4 +29,13 @@ CREATE TABLE bookmarkslabel (
     update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     sort_order INT
 );
+
+CREATE TABLE test (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    title VARCHAR(255),
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    sort_order INT
+);
 ```

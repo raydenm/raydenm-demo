@@ -56,7 +56,7 @@ const Add = ({ getData }: { getData: () => void }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add</DialogTitle>
+          <DialogTitle>Add Item</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-8">

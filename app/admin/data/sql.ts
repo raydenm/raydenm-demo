@@ -1,3 +1,5 @@
+"use client"
+
 import { z } from "zod"
 import type { SqlConfigType } from "types/admin"
 
@@ -74,6 +76,24 @@ export const sqlConfigList: SqlConfigType[] = [
     }),
     defaultValues: {
       name: "",
+      sort_order: "0",
+    },
+  },
+  {
+    sqlName: "test",
+    fields: [{ field: "name", required: true }, { field: "title", required: true }, { field: "sort_order" }],
+    formSchema: z.object({
+      name: z.string().min(1, {
+        message: "name is required.",
+      }),
+      title: z.string().min(1, {
+        message: "title is required.",
+      }),
+      sort_order: z.string(),
+    }),
+    defaultValues: {
+      name: "",
+      title: "",
       sort_order: "0",
     },
   },
