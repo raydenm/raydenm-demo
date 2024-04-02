@@ -2,7 +2,7 @@
 
 import { sql } from "@vercel/postgres"
 import dayjs from "dayjs"
-import type { AdminParamsType, AdminTableData } from "types/admin"
+import type { AdminParamsType, AdminTableData, FieldsType } from "app/admin/types/admin"
 
 const getAddParams = (data: AdminParamsType) => {
   const labels = []
@@ -35,13 +35,57 @@ const getEditParams = (data: AdminParamsType) => {
   return values.join(", ")
 }
 
-export const getData = async ({ sqlName }: { sqlName?: string }) => {
+export const getData = async ({
+  sqlName,
+  pageNumber = 1,
+  pageSize = 10,
+  searchField = [],
+  searchValue = "",
+}: {
+  sqlName: string
+  pageNumber?: number
+  pageSize?: number
+  searchField: FieldsType
+  searchValue?: string
+}) => {
   try {
-    const query = `SELECT * FROM ${sqlName} ORDER BY id DESC;`
-    const { rows }: { rows: AdminTableData[] } = await sql.query(query)
-    return rows
+    const offset = (pageNumber - 1) * pageSize
+    let query = `SELECT * FROM ${sqlName}`
+    let countQuery = `SELECT COUNT(*) FROM ${sqlName}`
+    const queryParams = []
+    const countQueryParams = []
+
+    if (searchValue && searchField.length > 0) {
+      query += ` WHERE `
+      countQuery += ` WHERE `
+      for (let i = 0; i < searchField.length; i++) {
+        if (!searchField[i]?.search) continue
+        if (i > 0) {
+          query += ` OR `
+          countQuery += ` OR `
+        }
+        query += `${searchField[i]?.field} ILIKE $${queryParams.length + 1}`
+        countQuery += `${searchField[i]?.field} ILIKE $${countQueryParams.length + 1}`
+        queryParams.push(`%${searchValue}%`)
+        countQueryParams.push(`%${searchValue}%`)
+      }
+    }
+
+    query += ` ORDER BY id DESC LIMIT $${queryParams.length + 1} OFFSET $${queryParams.length + 2}`
+    queryParams.push(pageSize, offset)
+    console.log(query, queryParams)
+
+    const [result, countResult] = await Promise.all([
+      sql.query(query, queryParams),
+      sql.query(countQuery, countQueryParams),
+    ])
+    const { rows }: { rows: AdminTableData[] } = result
+    const total = Number(countResult.rows[0].count)
+
+    return { data: rows, total }
   } catch (error) {
     console.error(error)
+    throw error
   }
 }
 
@@ -49,20 +93,24 @@ export const addData = async ({ values, sqlName }: { values: AdminParamsType; sq
   try {
     const { labelString, valueString } = getAddParams(values)
     const query = `INSERT INTO ${sqlName} (${labelString}) VALUES (${valueString})`
+    console.log(query)
     await sql.query(query)
     return true
   } catch (error) {
     console.error(error)
+    throw error
   }
 }
 
 export const deleteData = async ({ id, sqlName }: { id: number; sqlName: string }) => {
   try {
     const query = `DELETE FROM ${sqlName} WHERE id = ${id};`
+    console.log(query)
     await sql.query(query)
     return true
   } catch (error) {
     console.error(error)
+    throw error
   }
 }
 
@@ -70,9 +118,11 @@ export const editData = async ({ id, values, sqlName }: { id: number; values: Ad
   try {
     const value = getEditParams(values)
     const query = `UPDATE ${sqlName} SET ${value} WHERE id = ${id};`
+    console.log(query)
     await sql.query(query)
     return true
   } catch (error) {
     console.error(error)
+    throw error
   }
 }

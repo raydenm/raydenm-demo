@@ -1,14 +1,30 @@
+import { Ban, Loader2 } from "lucide-react"
 import * as React from "react"
 
 import { cn } from "lib/utils"
 
-const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => (
-    <div className="relative w-full overflow-auto">
-      <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props} />
-    </div>
-  )
-)
+interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
+  isEmpty?: boolean
+  isLoading?: boolean
+}
+
+const Table = React.forwardRef<HTMLTableElement, TableProps>(({ className, isEmpty, isLoading, ...props }, ref) => (
+  <div className="relative min-h-48 w-full overflow-auto">
+    <table ref={ref} className={cn("w-full caption-bottom text-sm", className)} {...props} />
+    {isEmpty && (
+      <div className="my-20 flex w-full flex-col items-center text-sm text-slate-500">
+        <Ban className="mb-4 size-5" />
+        No Data
+      </div>
+    )}
+    {isLoading && (
+      <div className="absolute top-0 flex size-full flex-col items-center justify-center bg-white/70 text-sm text-slate-400">
+        <Loader2 className="mb-4 size-6 animate-spin" />
+        loading...
+      </div>
+    )}
+  </div>
+))
 Table.displayName = "Table"
 
 const TableHeader = React.forwardRef<HTMLTableSectionElement, React.HTMLAttributes<HTMLTableSectionElement>>(

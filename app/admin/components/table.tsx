@@ -1,33 +1,55 @@
 "use client"
 
+import Delete from "app/admin/components/delete"
+import Edit from "app/admin/components/edit"
+import useStore from "app/admin/store"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "components/ui/table"
-import useStore from "store"
-import type { AdminTableData } from "types/admin"
-import Delete from "./delete"
-import Edit from "./edit"
 
-const AdminTable = ({ data, getData }: { data: AdminTableData[]; getData: () => void }) => {
-  const sqlConfig = useStore((state) => state.sqlConfig)
+const AdminTable = () => {
+  const { sqlConfig, tableData, searchValue, isLoading } = useStore((state) => state)
+
+  const HighlightKeyword = ({ text }: { text: string }) => {
+    if (!text || !searchValue) return <>{text}</>
+    const regex = new RegExp(`(${searchValue})`, "gi")
+    const parts = text.split(regex)
+    return parts.map((part, index) =>
+      part.toLowerCase() === searchValue.toLowerCase() ? (
+        <span key={index} className="text-[#2660FF]">
+          {part}
+        </span>
+      ) : (
+        <span key={index}>{part}</span>
+      )
+    )
+  }
+  if (!sqlConfig.sqlName) return null
+
   return (
-    <Table>
+    <Table isEmpty={tableData.length === 0 && !isLoading} isLoading={isLoading}>
       <TableHeader>
         <TableRow>
-          {sqlConfig.fields.map((item, index) => (
+          {(sqlConfig.fields || []).map((item, index) => (
             <TableHead key={index}>{item.field}</TableHead>
           ))}
           <TableHead className="text-right">actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {(data || []).map((item) => (
+        {(tableData || []).map((item) => (
           <TableRow key={item.id}>
-            {sqlConfig.fields.map(({ field }, index) => (
-              <TableCell key={index}>{item[field] ?? "-"}</TableCell>
+            {(sqlConfig.fields || []).map(({ field, search }, index) => (
+              <TableCell key={index}>
+                {searchValue && search ? (
+                  <HighlightKeyword text={item[field] as string}></HighlightKeyword>
+                ) : (
+                  String(item[field]) || "-"
+                )}
+              </TableCell>
             ))}
             <TableCell className="text-right">
               <div className="flex items-center justify-end space-x-4">
-                <Delete getData={getData} data={item}></Delete>
-                <Edit getData={getData} data={item}></Edit>
+                <Delete data={item}></Delete>
+                <Edit data={item}></Edit>
               </div>
             </TableCell>
           </TableRow>

@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
+import Link from "next/link"
 import * as React from "react"
 
 import { ButtonProps, buttonVariants } from "components/ui/button"
@@ -21,19 +22,19 @@ const PaginationContent = React.forwardRef<HTMLUListElement, React.ComponentProp
 )
 PaginationContent.displayName = "PaginationContent"
 
-const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<"li">>(({ className, ...props }, ref) => (
-  <li ref={ref} className={cn("", className)} {...props} />
+const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<"div">>(({ className, ...props }, _ref) => (
+  <div className={cn("cursor-pointer", className)} {...props}></div>
 ))
 PaginationItem.displayName = "PaginationItem"
 
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<ButtonProps, "size"> &
-  React.ComponentProps<"a">
+  React.ComponentProps<typeof Link>
 
 const PaginationLink = ({ className, isActive, size = "icon", ...props }: PaginationLinkProps) => (
   // eslint-disable-next-line jsx-a11y/anchor-has-content
-  <a
+  <Link
     aria-current={isActive ? "page" : undefined}
     className={cn(
       buttonVariants({
@@ -43,7 +44,7 @@ const PaginationLink = ({ className, isActive, size = "icon", ...props }: Pagina
       className
     )}
     {...props}
-  />
+  ></Link>
 )
 PaginationLink.displayName = "PaginationLink"
 

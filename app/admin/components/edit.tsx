@@ -4,18 +4,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2, Pencil, Send } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import useStore from "app/admin/store"
+import { AdminTableData } from "app/admin/types/admin"
+import type { AdminParamsType } from "app/admin/types/admin"
 import { Button } from "components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "components/ui/form"
 import { Input } from "components/ui/input"
 import { useToast } from "components/ui/use-toast"
 import { editData } from "db/admin"
-import useStore from "store"
-import { AdminTableData } from "types/admin"
-import type { AdminParamsType } from "types/admin"
 
-const Edit = ({ getData, data }: { data: AdminTableData; getData: () => void }) => {
-  const sqlConfig = useStore((state) => state.sqlConfig)
+const Edit = ({ data }: { data: AdminTableData }) => {
+  const { sqlConfig, getTableData } = useStore((state) => state)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const form = useForm({
@@ -35,8 +35,14 @@ const Edit = ({ getData, data }: { data: AdminTableData; getData: () => void }) 
           title: "Success",
           description: "change success!",
         })
-        getData()
+        getTableData()
         setOpen(false)
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+        })
       })
       .finally(() => {
         setLoading(false)
@@ -61,16 +67,16 @@ const Edit = ({ getData, data }: { data: AdminTableData; getData: () => void }) 
       <DialogTrigger asChild>
         <Button size="sm" className="">
           <Pencil className="mr-2 size-4" />
-          Edit Item
+          Edit
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Item</DialogTitle>
+          <DialogTitle>Edit</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-8">
-            {sqlConfig.fields.map((item, index) => (
+            {(sqlConfig.fields || []).map((item, index) => (
               <FormField
                 key={index}
                 control={form.control}

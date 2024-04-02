@@ -1,45 +1,40 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { getData } from "db/admin"
-import useStore from "store"
-import type { AdminTableData } from "types/admin"
-import Add from "./components/add"
-import ChooseSql from "./components/chooseSql"
-import Tabel from "./components/table"
+import { useEffect } from "react"
+import { useDebounceCallback } from "usehooks-ts"
+import Add from "app/admin/components/add"
+import ChooseSql from "app/admin/components/chooseSql"
+import Header from "app/admin/components/header"
+import Paginator from "app/admin/components/paginator"
+import Search from "app/admin/components/search"
+import Tabel from "app/admin/components/table"
+import useStore from "app/admin/store"
 
 const Admin = () => {
-  const [tableData, setTableData] = useState<AdminTableData[]>([])
-  const sqlConfig = useStore((state) => state.sqlConfig)
-  const hanldeGetData = async () => {
-    const data = await getData({ sqlName: sqlConfig?.sqlName })
-    setTableData(data || [])
-  }
+  const { sqlConfig, searchValue, pageNumber, getTableData } = useStore((state) => state)
+  const debounced = useDebounceCallback(getTableData, 500)
 
   useEffect(() => {
-    setTableData([])
-    hanldeGetData()
-  }, [sqlConfig])
+    debounced()
+  }, [searchValue])
+
+  useEffect(() => {
+    getTableData()
+  }, [sqlConfig, pageNumber])
 
   return (
     <section className="bg-white dark:bg-gray-900">
-      <div className="mx-auto grid max-w-screen-xl py-10">
-        <div className="">
-          <h1 className="mb-4 w-full max-w-2xl  text-4xl font-extrabold leading-none tracking-tight dark:text-white md:text-5xl xl:text-6xl">
-            Vercel Postgres
-          </h1>
-          <p className="max-w-2xl font-light text-gray-500 dark:text-gray-400 md:text-lg lg:text-xl">
-            Vercel Postgres is a serverless SQL database designed to integrate with Vercel Functions and your frontend
-            framework.
-          </p>
-        </div>
-      </div>
+      <Header />
       <div className="mx-auto max-w-screen-xl">
-        <div className="flex justify-between">
-          <ChooseSql></ChooseSql>
-          <Add getData={hanldeGetData}></Add>
+        <div className="mb-4 flex justify-between">
+          <div className="flex items-center">
+            <ChooseSql />
+            <Search />
+          </div>
+          <Add />
         </div>
-        <Tabel data={tableData} getData={hanldeGetData}></Tabel>
+        <Tabel />
+        <Paginator />
       </div>
     </section>
   )

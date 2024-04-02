@@ -2,31 +2,39 @@
 
 import { Loader2, Trash2 } from "lucide-react"
 import { useState } from "react"
+import useStore from "app/admin/store"
+import type { AdminTableData } from "app/admin/types/admin"
 import { Button } from "components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover"
 import { useToast } from "components/ui/use-toast"
 import { deleteData } from "db/admin"
-import useStore from "store"
-import type { AdminTableData } from "types/admin"
 
-const Delete = ({ data, getData }: { data: AdminTableData; getData: () => void }) => {
+const Delete = ({ data }: { data: AdminTableData }) => {
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
-  const sqlConfig = useStore((state) => state.sqlConfig)
+  const { sqlConfig, getTableData } = useStore((state) => state)
   const { toast } = useToast()
 
   const handleDelete = async (id: number) => {
     setOpen(false)
     setLoading(true)
-    const res = await deleteData({ sqlName: sqlConfig.sqlName, id })
-    if (res) {
-      getData()
-      toast({
-        title: "Success",
-        description: "delete success!",
+    deleteData({ sqlName: sqlConfig.sqlName, id })
+      .then(() => {
+        getTableData()
+        toast({
+          title: "Success",
+          description: "delete success!",
+        })
       })
-    }
-    setLoading(false)
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+        })
+      })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
   const handOpenChange = (value: boolean) => {

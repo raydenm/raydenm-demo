@@ -1,15 +1,15 @@
 "use client"
 
 import { z } from "zod"
-import type { SqlConfigType } from "types/admin"
+import type { SqlConfigType } from "app/admin/types/admin"
 
 export const sqlConfigList: SqlConfigType[] = [
   {
     sqlName: "users",
     fields: [
-      { field: "username", required: true },
-      { field: "email", required: true },
-      { field: "password", required: true },
+      { field: "username", required: true, search: true },
+      { field: "email", required: true, search: true },
+      { field: "password", required: true, search: true },
       { field: "sort_order" },
     ],
     formSchema: z.object({
@@ -34,11 +34,11 @@ export const sqlConfigList: SqlConfigType[] = [
   {
     sqlName: "bookmarks",
     fields: [
-      { field: "url", required: true },
-      { field: "title", required: true },
-      { field: "description" },
+      { field: "url", required: true, search: true },
+      { field: "title", required: true, search: true },
+      { field: "description", search: true },
       { field: "background_image" },
-      { field: "source" },
+      { field: "source", search: true },
       { field: "github_url" },
       { field: "sort_order" },
     ],
@@ -67,7 +67,7 @@ export const sqlConfigList: SqlConfigType[] = [
   },
   {
     sqlName: "bookmarkslabel",
-    fields: [{ field: "name", required: true }, { field: "sort_order" }],
+    fields: [{ field: "name", required: true, search: true }, { field: "sort_order" }],
     formSchema: z.object({
       name: z.string().min(1, {
         message: "name is required.",

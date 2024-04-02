@@ -4,17 +4,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { Loader2, Plus, Send } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import useStore from "app/admin/store"
+import type { AdminParamsType } from "app/admin/types/admin"
 import { Button } from "components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "components/ui/form"
 import { Input } from "components/ui/input"
 import { useToast } from "components/ui/use-toast"
 import { addData } from "db/admin"
-import useStore from "store"
-import type { AdminParamsType } from "types/admin"
 
-const Add = ({ getData }: { getData: () => void }) => {
-  const sqlConfig = useStore((state) => state.sqlConfig)
+const Add = () => {
+  const { sqlConfig, getTableData, setPageNumber } = useStore((state) => state)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const form = useForm({
@@ -33,8 +33,15 @@ const Add = ({ getData }: { getData: () => void }) => {
           title: "Success",
           description: "add success!",
         })
-        getData()
+        setPageNumber(1)
+        getTableData()
         setOpen(false)
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+        })
       })
       .finally(() => {
         setLoading(false)
@@ -46,21 +53,23 @@ const Add = ({ getData }: { getData: () => void }) => {
     reset(sqlConfig.defaultValues)
   }
 
+  if (!sqlConfig.sqlName) return null
+
   return (
     <Dialog open={open} onOpenChange={(value) => handOpenChange(value)}>
       <DialogTrigger asChild>
-        <Button className="mb-6">
+        <Button>
           <Plus className="mr-2 size-4" />
-          Add Item
+          Add
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Item</DialogTitle>
+          <DialogTitle>Add</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-8">
-            {sqlConfig.fields.map((item, index) => (
+            {(sqlConfig.fields || []).map((item, index) => (
               <FormField
                 key={index}
                 control={form.control}

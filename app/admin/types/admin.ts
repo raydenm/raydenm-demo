@@ -5,9 +5,17 @@ export type AdminTableData = {
   update_time: string
 }
 
+export type FieldsType = {
+  field: string
+  required?: boolean
+  type?: string
+  search?: boolean
+}[]
+
 export type SqlConfigType = {
   sqlName: string
-  fields: { field: string; required?: boolean; type?: string }[]
+  fields: FieldsType
+  searchField?: string
   formSchema?: {}
   defaultValues?: {
     [key: string]: string | number
