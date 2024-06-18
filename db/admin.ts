@@ -3,6 +3,7 @@
 import { sql } from "@vercel/postgres"
 import dayjs from "dayjs"
 import type { AdminParamsType, AdminTableData, FieldsType } from "app/admin/types/admin"
+import { jwtVerifyToken } from 'lib/jwt'
 
 const getAddParams = (data: AdminParamsType) => {
   const labels = []
@@ -41,14 +42,23 @@ export const getData = async ({
   pageSize = 10,
   searchField = [],
   searchValue = "",
+  // cookie = ""
 }: {
   sqlName: string
   pageNumber?: number
   pageSize?: number
   searchField: FieldsType
   searchValue?: string
+  // cookie?: string
 }) => {
   try {
+    // const verdata = await jwtVerifyToken(cookie)
+    // if (!verdata) {
+    //   return {
+    //     data: [],
+    //     total: 0
+    //   }
+    // }
     const offset = (pageNumber - 1) * pageSize
     let query = `SELECT * FROM ${sqlName}`
     let countQuery = `SELECT COUNT(*) FROM ${sqlName}`

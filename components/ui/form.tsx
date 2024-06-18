@@ -123,11 +123,11 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
     const body = error ? String(error?.message) : children
 
     if (!body) {
-      return null
+      return <p className="h-5"></p>;
     }
 
     return (
-      <p ref={ref} id={formMessageId} className={cn("text-sm font-medium text-destructive", className)} {...props}>
+      <p ref={ref} id={formMessageId} className={cn("text-sm text-destructive", className)} {...props}>
         {body}
       </p>
     )

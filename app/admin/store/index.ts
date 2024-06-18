@@ -1,3 +1,4 @@
+import { getCookie } from 'cookies-next'
 import { create } from "zustand"
 import { AdminTableData, SqlConfigType } from "app/admin/types/admin"
 import { getData } from "db/admin"
@@ -58,6 +59,7 @@ const useStore = create<State & Action>((set, get) => ({
       pageSize,
       searchField: sqlConfig?.fields,
       searchValue,
+      // cookie: getCookie("token") as string
     })
     set(() => ({ tableData: data, total, isLoading: false }))
   },
