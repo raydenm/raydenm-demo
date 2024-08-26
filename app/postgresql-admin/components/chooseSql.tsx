@@ -1,7 +1,7 @@
 "use client"
 
-import { sqlConfigList } from "app/admin/data/sql"
-import useStore from "app/admin/store"
+import { sqlConfigList } from "app/postgresql-admin/data/sql"
+import useStore from "app/postgresql-admin/store"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "components/ui/select"
 
 const ChooseSql = () => {

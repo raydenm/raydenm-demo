@@ -6,14 +6,15 @@ import { SketchPicker } from "react-color"
 import { Button } from "components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover"
 import { Separator } from "components/ui/separator"
+import { useToast } from "components/ui/use-toast"
 
 const defauleColorList = [
   { from: 72, to: 60, color: "#71d3e5" },
   { from: 81, to: 26, color: "#ffdbde" },
-  { from: 43, to: 0, color: "#ff85ad" },
+  // { from: 43, to: 0, color: "#ff85ad" },
   { from: 98, to: 41, color: "#ffb58a" },
   { from: 65, to: 11, color: "#6b66ff" },
-  { from: 41, to: 6, color: "#ff85a7" },
+  // { from: 41, to: 6, color: "#ff85a7" },
 ]
 
 const defaultBgColor = "#ffffff"
@@ -29,6 +30,8 @@ const getRandomColor = (): string => {
 const Color = () => {
   const [colorList, setColorList] = useState<{ from?: number; to?: number; color: string }[]>(defauleColorList)
   const [bgColor, setBgColor] = useState(defaultBgColor)
+  const { toast } = useToast()
+
 
   const randomBgStyle = () => {
     const newColorList = colorList.map(({ color }) => ({
@@ -50,8 +53,7 @@ const Color = () => {
     colorList.forEach(({ from, to, color }, index) => {
       base =
         base +
-        `radial-gradient(at ${from}% ${to}%, ${color} 0px, transparent 50%)${
-          index !== colorList.length - 1 ? ", " : ""
+        `radial-gradient(at ${from}% ${to}%, ${color} 0px, transparent 50%)${index !== colorList.length - 1 ? ", " : ""
         }`
     })
     return base
@@ -73,13 +75,36 @@ const Color = () => {
     setColorList(newColorList)
   }
 
+  const copyStr = async (v: string) => {
+    try {
+      await navigator.clipboard.writeText(v);
+      toast({
+        title: "Success",
+        description: "copy success!",
+      })
+    } catch (error) {
+      const textarea = document.createElement('textarea');
+      textarea.value = v;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      toast({
+        title: "Success",
+        description: "copy success!",
+      })
+    }
+  }
+
   return (
     <div>
       <div
-        className="h-screen w-screen"
+        className="h-screen w-screen flex justify-center items-center text-white font-bold text-3xl"
         onClick={randomBgStyle}
         style={{ backgroundColor: bgColor, backgroundImage: getBgStyle() }}
-      ></div>
+      >
+        Click to switch color
+      </div>
       <Popover>
         <PopoverTrigger asChild>
           <Button className="fixed right-5 top-5">
@@ -131,6 +156,11 @@ const Color = () => {
           </ChooseColor>
         </PopoverContent>
       </Popover>
+      <Button onClick={() => copyStr(
+        `<div style='background-color: ${bgColor}; background-image: ${getBgStyle()}; height: 100%; width: 100%;'></div>`
+      )} className="fixed right-24 top-5">
+        Copy Code
+      </Button>
     </div>
   )
 }

@@ -2,13 +2,13 @@
 
 import { useEffect } from "react"
 import { useDebounceCallback } from "usehooks-ts"
-import Add from "app/admin/components/add"
-import ChooseSql from "app/admin/components/chooseSql"
-import Header from "app/admin/components/header"
-import Paginator from "app/admin/components/paginator"
-import Search from "app/admin/components/search"
-import Tabel from "app/admin/components/table"
-import useStore from "app/admin/store"
+import Add from "app/postgresql-admin/components/add"
+import ChooseSql from "app/postgresql-admin/components/chooseSql"
+import Header from "app/postgresql-admin/components/header"
+import Paginator from "app/postgresql-admin/components/paginator"
+import Search from "app/postgresql-admin/components/search"
+import Tabel from "app/postgresql-admin/components/table"
+import useStore from "app/postgresql-admin/store"
 
 const Admin = () => {
   const { sqlConfig, searchValue, pageNumber, getTableData } = useStore((state) => state)

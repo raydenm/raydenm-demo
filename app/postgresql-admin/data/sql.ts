@@ -1,7 +1,7 @@
 "use client"
 
 import { z } from "zod"
-import type { SqlConfigType } from "app/admin/types/admin"
+import type { SqlConfigType } from "app/postgresql-admin/types/admin"
 
 export const sqlConfigList: SqlConfigType[] = [
   {

@@ -1,4 +1,4 @@
-import useStore from "app/admin/store"
+import useStore from "app/postgresql-admin/store"
 import { Input } from "components/ui/input"
 
 const Search = () => {

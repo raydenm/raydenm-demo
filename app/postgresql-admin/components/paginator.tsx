@@ -1,4 +1,4 @@
-import useStore from "app/admin/store"
+import useStore from "app/postgresql-admin/store"
 import Paging from "components/common/paginator"
 
 const Paginator = () => {

@@ -1,20 +1,21 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Loader2, Plus, Send } from "lucide-react"
+import { Loader2, Pencil, Send } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import useStore from "app/admin/store"
-import type { AdminParamsType } from "app/admin/types/admin"
+import useStore from "app/postgresql-admin/store"
+import { AdminTableData } from "app/postgresql-admin/types/admin"
+import type { AdminParamsType } from "app/postgresql-admin/types/admin"
 import { Button } from "components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "components/ui/dialog"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "components/ui/form"
 import { Input } from "components/ui/input"
 import { useToast } from "components/ui/use-toast"
-import { addData } from "db/admin"
+import { editData } from "db/admin"
 
-const Add = () => {
-  const { sqlConfig, getTableData, setPageNumber } = useStore((state) => state)
+const Edit = ({ data }: { data: AdminTableData }) => {
+  const { sqlConfig, getTableData } = useStore((state) => state)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const form = useForm({
@@ -23,17 +24,17 @@ const Add = () => {
     defaultValues: sqlConfig.defaultValues,
   })
   const { toast } = useToast()
+
   const { reset, handleSubmit } = form
 
   const onSubmit = (values: AdminParamsType) => {
     setLoading(true)
-    addData({ sqlName: sqlConfig.sqlName, values })
+    editData({ id: data.id, values, sqlName: sqlConfig.sqlName })
       .then(() => {
         toast({
           title: "Success",
-          description: "add success!",
+          description: "change success!",
         })
-        setPageNumber(1)
         getTableData()
         setOpen(false)
       })
@@ -50,22 +51,28 @@ const Add = () => {
 
   const handOpenChange = (value: boolean) => {
     setOpen(value)
-    reset(sqlConfig.defaultValues)
+    let newData: { [key: string]: string } = {}
+    if (value) {
+      for (const key in data) {
+        if (Object.hasOwnProperty.call(data, key)) {
+          newData[key] = String(data[key])
+        }
+      }
+      reset(newData)
+    }
   }
-
-  if (!sqlConfig.sqlName) return null
 
   return (
     <Dialog open={open} onOpenChange={(value) => handOpenChange(value)}>
       <DialogTrigger asChild>
-        <Button>
-          <Plus className="mr-2 size-4" />
-          Add
+        <Button size="sm" className="">
+          <Pencil className="mr-2 size-4" />
+          Edit
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add</DialogTitle>
+          <DialogTitle>Edit</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-2 space-y-8">
@@ -76,7 +83,7 @@ const Add = () => {
                 name={item.field}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel required={item.required}>{item.field}</FormLabel>
+                    <FormLabel>{item.field}</FormLabel>
                     <FormControl>
                       <Input placeholder="Place enter" {...field} />
                     </FormControl>
@@ -88,7 +95,7 @@ const Add = () => {
             <div className="flex justify-end">
               <Button type="submit" disabled={loading}>
                 {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : <Send className="mr-2 size-4" />}
-                Submit
+                Save changes
               </Button>
             </div>
           </form>
@@ -98,4 +105,4 @@ const Add = () => {
   )
 }
 
-export default Add
+export default Edit

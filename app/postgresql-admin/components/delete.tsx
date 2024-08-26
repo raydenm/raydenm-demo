@@ -2,8 +2,8 @@
 
 import { Loader2, Trash2 } from "lucide-react"
 import { useState } from "react"
-import useStore from "app/admin/store"
-import type { AdminTableData } from "app/admin/types/admin"
+import useStore from "app/postgresql-admin/store"
+import type { AdminTableData } from "app/postgresql-admin/types/admin"
 import { Button } from "components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "components/ui/popover"
 import { useToast } from "components/ui/use-toast"

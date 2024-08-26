@@ -1,8 +1,8 @@
 "use client"
 
-import Delete from "app/admin/components/delete"
-import Edit from "app/admin/components/edit"
-import useStore from "app/admin/store"
+import Delete from "app/postgresql-admin/components/delete"
+import Edit from "app/postgresql-admin/components/edit"
+import useStore from "app/postgresql-admin/store"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "components/ui/table"
 
 const AdminTable = () => {

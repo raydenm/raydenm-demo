@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { AdminTableData, SqlConfigType } from "app/admin/types/admin"
+import { AdminTableData, SqlConfigType } from "app/postgresql-admin/types/admin"
 import { getData } from "db/admin"
 
 type State = {

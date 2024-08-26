@@ -2,7 +2,7 @@
 
 import { sql } from "@vercel/postgres"
 import dayjs from "dayjs"
-import type { AdminParamsType, AdminTableData, FieldsType } from "app/admin/types/admin"
+import type { AdminParamsType, AdminTableData, FieldsType } from "app/postgresql-admin/types/admin"
 
 const getAddParams = (data: AdminParamsType) => {
   const labels = []
